@@ -1,49 +1,255 @@
 <!DOCTYPE html>
-<!---Coding By CodingLab | www.codinglabweb.com--->
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Registration Form in HTML CSS</title>
-    <!---Custom CSS File--->
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  
-  <body>
-    <section class="container">
-      <header>
-           Student Verification</header>
-      <form action="file:///D:/bootstrap-university-template-free-download/mvti/Registration%20Form/Record.html" class="form">
-      
-          
-     
-      <div class="column">
-        <div class="input-box">
-          <label>Student Name</label>
-          <input type="text" placeholder="Enter full name" required />
-        </div>
-<div class="input-box">
-             <label>Roll No</label>
-            <input type="text" id="rollno" name="rollno" placeholder="Enter Your Roll No"required />
-          </div>
-        </div>
-        
-             
-          
-        </div>
-       
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF Data Insertion</title>
+  <script src="https://unpkg.com/pdf-lib@1.4.0"></script>
+  <script src="https://unpkg.com/downloadjs@1.4.7"></script>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+
+    #student-record {
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
     
-         
-                       
-        
-       
-          
-          
-      <button>Submit</button> 
-     
-        
-      </form>
+    #student-record header {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 10px;
+    }
+    
+    .record-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: space-between;
+    }
+    
+    .input-box {
+      flex: 1 1 45%;
+      margin-bottom: 15px;
+    }
+    
+    .input-box label {
+      font-size: 16px;
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    .input-box span {
+      font-size: 16px;
+      color: #333;
+      word-break: break-word;
+    }
+    
+    @media screen and (max-width: 768px) {
+      .input-box {
+        flex: 1 1 100%;
+      }
+    }
+    
+    
+    
+        </style>
+</head>
+<body>
+
+  <section class="container">
+    <header>Student Verification</header>
+    <form id="search-form" class="form">
+      <div class="input-box">
+        <label>Student Name</label>
+        <input type="text" id="student-name" placeholder="Enter full name" required />
+      </div>
+      <div class="input-box">
+        <label>Roll No</label>
+        <input type="text" id="rollno" placeholder="Enter Your Roll No" />
+      </div>
+      <button type="submit">Search</button>
+    </form>
+
+    <section id="student-record" style="display: none;">
+      <header style="background-color: rgb(130, 106, 251); color: #fff; padding: 10px;">Student Record</header>
+      <div class="record-container">
+        <div class="input-box">
+            <label><strong>Student Name:</strong></label>
+            <span id="record-name"></span>
+        </div>
+        <div class="input-box">
+          <label><strong>Roll No:</strong></label>
+          <span id="record-rollno"></span>
+      </div>
+        <div class="input-box">
+            <label><strong>Father's Name:</strong></label>
+            <span id="record-father"></span>
+        </div>
+        <div class="input-box">
+            <label><strong>Date of Birth:</strong></label>
+            <span id="record-dob"></span>
+        </div>
+        <div class="input-box">
+            <label><strong>Course:</strong></label>
+            <span id="record-course"></span>
+        </div>
+        <div class="input-box">
+            <label><strong>Grade:</strong></label>
+            <span id="record-grade"></span>
+        </div>
+        <div class="input-box">
+            <label><strong>Percentage:</strong></label>
+            <span id="record-percentage"></span>
+        </div>
+        <div class="input-box">
+          <label><strong>Year:</strong></label>
+          <span id="record-year"></span>
+      </div>
+      <div class="input-box">
+          <label><strong>Duration:</strong></label>
+          <span id="record-duration"></span>
+      </div>
+      <button type="button" onclick="modifyPdf()">Download Certificate</button>
     </section>
-  </body>
+  </section>
+
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbxJHxqINXlqzrRT5jFAg-SyNAWf_37cMkaNGDNdOgTDmGI3rXj7d8X2AketmLs-AD5V/exec"; // Replace with your deployed Google Apps Script API URL
+
+    document.getElementById("search-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const studentName = document.getElementById("student-name").value.trim().toLowerCase();
+      const rollNo = document.getElementById("rollno").value.trim();
+
+      try {
+        const response = await fetch(API_URL);
+        if (!response.ok) {
+          throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log("API Response:", data);
+
+        // Add logging for each item to debug the structure
+        data.forEach((item, index) => {
+          console.log(`Item ${index}:`, item);
+        });
+
+        // Find the record with case-insensitive comparison and trimming for spaces
+        const record = data.find((item) => {
+    const itemRollNo = item.Roll_Number ? item.Roll_Number.toString().trim() : "";  // Adjust field name
+    const itemStudentName = item.Student_Name ? item.Student_Name.trim().toLowerCase() : "";  // Adjust field name
+
+    console.log("Checking:", { studentName, rollNo, itemRollNo, itemStudentName });
+
+    return itemRollNo === rollNo && itemStudentName === studentName;
+  });
+
+        if (record) {
+          document.getElementById("record-name").textContent = record.Student_Name || "N/A";
+          document.getElementById("record-rollno").textContent = record.Roll_Number || "N/A";
+          document.getElementById("record-father").textContent = record.Father_Name || "N/A";
+          document.getElementById("record-dob").textContent = record.Date_of_Birth || "N/A";
+          document.getElementById("record-course").textContent = record.Course || "N/A";
+          document.getElementById("record-grade").textContent = record.Grade || "N/A";
+          document.getElementById("record-percentage").textContent = record.Percentage || "N/A";
+          document.getElementById("record-year").textContent = record.Grade || "N/A";
+          document.getElementById("record-duration").textContent = record.Course || "N/A";
+          document.getElementById("student-record").style.display = "block";
+        } else {
+          alert("No record found for the given details.");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        alert("Failed to fetch records. Please try again later.");
+      }
+    });
+
+    const { PDFDocument, rgb, StandardFonts } = PDFLib;
+
+    async function modifyPdf() {
+      // Replace these with the actual student record information
+      const rollNumber = document.getElementById("record-rollno").textContent.trim();
+      const studentName = document.getElementById("record-name").textContent.trim();
+      const fatherName = document.getElementById("record-father").textContent.trim();
+      const dob = document.getElementById("record-dob").textContent.trim();
+      const course = document.getElementById("record-course").textContent.trim();
+      const grade = document.getElementById("record-grade").textContent.trim();
+      const percentage = document.getElementById("record-percentage").textContent.trim();
+      const year = document.getElementById("record-year").textContent.trim();
+      const duration = document.getElementById("record-duration").textContent.trim();
+      const uniqueId = `ID-${Date.now()}`;
+
+      try {
+        // Load the existing PDF file
+        const url = './1.pdf';  // Your template PDF path
+        const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer());
+        
+        // Load the PDFDocument
+        const pdfDoc = await PDFDocument.load(existingPdfBytes);
+
+        // Embed the font
+        const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+
+        // Get the first page of the PDF
+        const pages = pdfDoc.getPages();
+        const firstPage = pages[0];
+
+        // Add text at specific coordinates
+        firstPage.drawText(uniqueId, { x: 85, y: 790, size: 15, font: font, color: rgb(0, 0, 0) });
+        firstPage.drawText(rollNumber, { x: 485, y: 790, size: 15, font: font, color: rgb(0, 0, 0) });
+        firstPage.drawText(studentName, { x: 270, y: 450, size: 18, font: font, color: rgb(0, 0, 0) });
+        firstPage.drawText(course, { x: 270, y: 400, size: 18, font: font, color: rgb(0, 0, 0) });
+        firstPage.drawText(dob, { x: 200, y: 345, size: 18, font: font, color: rgb(0, 0, 0) });
+        firstPage.drawText(grade, { x: 380, y: 345, size: 18, font: font, color: rgb(0, 0, 0) });
+        firstPage.drawText(duration, { x: 270, y: 295, size: 18, font: font, color: rgb(0, 0, 0) });
+// Load the sign image and embed it into the document
+        
+const signUrl = './sign.png';  // Make sure this path is correct
+        const signBytes = await fetch(signUrl).then((res) => res.arrayBuffer());
+        if (!signBytes) {
+          throw new Error("Error fetching the sign image.");
+        }
+
+        const signImage = await pdfDoc.embedPng(signBytes);
+
+        // Draw the image on the first page
+        firstPage.drawImage(signImage, {
+          x: 478,
+          y: 650,
+          width: 63,
+          height: 80,
+        });
+        // Draw the sign image on the first page
+        firstPage.drawImage(signImage, {
+          x: 270,
+          y: 230,
+          width: 100,
+          height: 50,
+        });
+
+        firstPage.drawImage(signImage, {
+          x: 450,
+          y: 230,
+          width: 100,
+          height: 50,
+        });
+        // Serialize the PDFDocument to bytes
+        const pdfBytes = await pdfDoc.save();
+
+        // Trigger the download of the modified PDF
+        download(pdfBytes, "GeneratedCertificate.pdf", "application/pdf");
+      } catch (error) {
+        console.error("Error modifying PDF:", error);
+        alert("There was an error modifying the PDF.");
+      }
+    }
+  </script>
+</body>
 </html>
