@@ -1,0 +1,29 @@
+function doPost(e) {
+  let sheetName = "Registration"
+  let sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
+   if (!sheet) {
+    return ContentService.createTextOutput("Error: Sheet not found");
+  }
+    let newRow = sheet.getLastRow() + 1;
+
+  let rowData = [];
+  
+  rowData.push(new Date());  // Timestamp
+  rowData.push(e.parameter.sname);
+  rowData.push(e.parameter.fname);
+  rowData.push(e.parameter.phone);
+  rowData.push(e.parameter.dob);
+  rowData.push(e.parameter.gender);
+  rowData.push(e.parameter.address1);
+  rowData.push(e.parameter.address2);
+  rowData.push(e.parameter.course);
+  rowData.push(e.parameter.rollno);
+  rowData.push(e.parameter.grade);
+  rowData.push(e.parameter.percentage);
+  rowData.push(e.parameter.joindate);
+  rowData.push(e.parameter.examdate);
+  
+  sheet.getRange(newRow, 1, 1, rowData.length).setValues([rowData]);
+  
+  return ContentService.createTextOutput('Form submission was successful. Thank you.');
+}

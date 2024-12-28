@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!---Coding By CodingLab | www.codinglabweb.com--->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Registration Form in HTML CSS</title>
+    <!---Custom CSS File--->
+    <link rel="stylesheet" href="style.form.css"<br>
+ />
+  </head>
+  <body>
+    <section class="container">
+      <header style="border-bottom:solid thin #999; padding:0px">
+           <img src="logo.png" width="150px"></header>
+      <form action="Student_Form.html" class="form">
+        <div class="input-box">
+          <label>User Name</label>
+          <input type="text" id="username" name="username" required />
+        </div>
+<div class="input-box">
+          <label>Password</label>
+          <input type="text" id="password" required name="password" />
+        </div>
+        
+        
+        </div>       
+          
+          
+      <button>Submit</button> 
+     
+        
+      </form>
+    </section>
+    <script type="text/javascript">
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // prevent default form submission behavior
+
+            // validate username and password
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            if (username === 'mvti' && password === 'mvti') {
+                window.location.replace("Student_Form.html")
+            } else {
+                alert('Username or password incorrect. Please try again.');
+            }
+        });
+    </script>  
+  </body>
+</html>
