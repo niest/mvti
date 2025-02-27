@@ -54,16 +54,36 @@
 
             <div class="column">
                 <div class="input-box">
-                    <label>Course</label>
-                    <input type="text" name="course" placeholder="Enter Your Course" required />
+                    <label>Course</label> <br>
+                    
+                      <Select name="course" required>
+                    <option>Basic</option>
+                    <option>DTP</option>
+                    <option>DCA</option>
+                     <option>ADCA</option>
+                    <option>ADIT</option>
+                    <option>DCFA</option>
+                     <option>Web Designing</option>
+                    <option>Graphics Designing</option>
+                    <option>Tally Prime</option>
+                     <option>Advance Excel</option>
+                    <option>MIS</option>
+                    <option>DEO</option>
+                    </Select>
+                   
                 </div>
                 <div class="input-box">
                     <label>Roll No</label>
                     <input type="text" name="rollno" placeholder="rollno" required />
                 </div>
                 <div class="input-box">
-                    <label>Grade</label>
-                    <input type="text" name="grade" placeholder="Enter Grade" required />
+                    <label>Grade</label><br>
+                    
+                    <Select name="grade" required style="margin:10px;">
+                    <option>A</option>
+                    <option>A+</option>
+                    <option>B</option>
+                    </Select>
                 </div>
                 <div class="input-box">
                     <label>Percentage</label>
@@ -95,7 +115,7 @@
 
             let data = new FormData(form); // Collect form data
             
-            fetch('https://script.google.com/macros/s/AKfycbytG42KyYIcKxxXOi9ub7Ob0EBmzujEFLfaWCbtaOr6TXyfWlY9TLiU12SOd6XD4qUD/exec', {
+            fetch('https://script.google.com/macros/s/AKfycbwu59G21I76bl4JLWBe3k0FwM8g12-n3YjMYhXwV_S7zba7iExWoRPvi8quCH1u3Bh-/exec', {
                 method: "POST",
                 body: data  
             })
