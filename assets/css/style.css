@@ -25,10 +25,10 @@ img {
 a {
   text-decoration: none;
   outline: none;
-  color: #444; }
+  color:#F00; }
 
 a:hover {
-  color: #444; }
+  color: #F00; }
 
 ul {
   margin-bottom: 0;
@@ -150,7 +150,7 @@ body {
     .page-nav ul li i {
       width: 30px;
       text-align: center;
-      color: #444; }
+      color:#444; }
     .page-nav ul li a {
       color: #444; }
 
@@ -223,10 +223,10 @@ header {
   z-index: 999;
   background-color: #FFF; }
   header .header-top {
-    background-color: #223d50; }
+    background-color:#B00; }
     header .header-top .left-item ul li {
       float: left;
-      color: #FFF;
+      color:#FFF;
       padding: 10px;
       font-size: .8rem; }
     header .header-top .right-item ul {
@@ -237,12 +237,15 @@ header {
         padding: 5px;
         font-size: .8rem; }
   header .header-nav .nav-item {
-    z-index: 999; }
+    z-index: 999;
+	color:#F00; }
     header .header-nav .nav-item ul li {
       float: left;
       font-family: "mouse-500", Arial, Helvetica, sans-serif;
       font-size: 15px;
-      padding: 30px; }
+      padding: 30px;
+	  color:#F00;
+	     }
       @media screen and (max-width: 953px) {
         header .header-nav .nav-item ul li {
           padding: 30px 10px; } }
@@ -458,6 +461,7 @@ header {
     margin-top: 30px; }
     .our-instructor .instruct-row .instruct-card {
       background-color: #f4f4f4;
+	  
       padding: 15px;
       margin-bottom: 15px;
       text-align: center; }
@@ -550,7 +554,7 @@ header {
   padding: 30px;
   background-color: #00ab9f;
   color: #FFF;
-  font-size: 1.5rem; }
+  font-size: 20px; }
   .footer-ablove .btn {
     float: right;
     background-color: #FFF;
